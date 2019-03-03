@@ -1,43 +1,51 @@
+//
+// Created by zappe on 2019-03-03.
+//
 #include <iostream>
-#include <fstream>
-#include <string>
 #include <vector>
-#include <boost>
+#include <string>
+#include <tuple>
 
-using namespace std;
-
-struct Journal
+enum class Relationship
 {
-  string title;
-  vector<string> entries;
-
-  Journal(const string& title) : title(title) {}
-
-  void add_entry(const string& entry)
-  {
-    static int count = 1;
-    entries.push_back(lexical_cast<string>(count++) + ": " entry);
-  }
-
+    parent,
+    child,
+    sibling
 };
 
-struct PersistentManager
+struct Person
 {
-  static void save (const Journal& j, const std::string& filename)
-  {
-    std::ofstream ofs(filename);
-    for (auto& e : j.entries)
-      ofs << e << std::endl;
-  };
+    std::string name;
 };
+
+struct Relationships
+{
+    std::vector<std::tuple<Person, Relationship, Person>> relations;
+
+    void add_parent_and_child(const Person& parent, const Person& child)
+    {
+        relations.push_back({parent, Relationship::parent, child});
+        relations.push_back({child, Relationship ::child, parent});
+    }
+};
+
+struct Lamp
+{
+    void TurnOn()
+    {
+        std::cout << "Turn On the Lamp" << std::endl;
+    }
+    void TurnOff()
+    {
+        std::cout << "Turn Off the Lamp" << std::endl;
+    }
+};
+
 
 int main()
 {
-  Journal journal{"Dear Diary"};
-  journal.add_entry()
-
-
-
+    Person parent{"John"};
+    Person child1{"Chris"}, child2{"Matt"};
 
 
 }
